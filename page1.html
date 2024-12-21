@@ -19,8 +19,10 @@
             <p class="price">599,00 DH <span class="old-price">960,00 DH</span></p>
             <p class="availability">En stock</p>
             <div class="purchase-options">
-                <button onclick="addToCart()">Ajouter au panier</button>
-                <button onclick="buyNow()">Acheter maintenant</button>
+                <button class="btn" onclick="addToCart('Mass-Tech Elite 2.72 Kg - Muscletech', '599,00 ', 'mass-tech.jpg')">Ajouter au panier</button>
+               
+            
+            
             </div>
             <div id="confirmationMessage"></div>
         </div>
@@ -38,46 +40,28 @@
             <li>Idéal pour soutenir la croissance musculaire et la prise de poids</li>
         </ul>
     </div>
-    
+    <a href="index.html"> retour </a>
 
 <div class="footer">
     <p>&copy; 2024 Iron Gain. Tous droits réservés.</p>
 </div>
 
+
 <script>
-      // Données du produit
-      const productData = {
-        name: "Serious Mass - 5.44 Kg",
-        price: "189,00 DH",
-        id: 2,
-        quantity:1
-    };
- // Fonction pour ajouter au panier
- function addToCart() {
-        // Récupérer le panier actuel (ou créer un nouveau)
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    // دالة لإضافة المنتج إلى السلة
+    function addToCart(title, price, image) {
+        let product = {
+            title: title,
+            price: price,
+            image: image
+        };
 
-        // Vérifier si le produit existe déjà dans le panier
-        const existingProduct = cart.find(item => item.id === productData.id);
+    
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(product); 
+        localStorage.setItem('cart', JSON.stringify(cart)); 
 
-        if (existingProduct) {
-            existingProduct.quantity += 1; // Augmenter la quantité
-        } else {
-            cart.push({ ...productData }); // Ajouter le produit
-        }
-
-        // Mettre à jour le panier dans le localStorage
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // Afficher le message de confirmation
-        document.getElementById("confirmationMessage").innerHTML = `
-            Produit ajouté au panier ! <a href="panier.html" style="color: blue; text-decoration: underline;">Voir le panier</a>
-        `;
-    }
-
-    // Fonction pour acheter maintenant
-    function buyNow() {
-        window.location.href = "payment2.html";
+        alert(" Le produit a été ajouté au panier !");
     }
 </script>
 

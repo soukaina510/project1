@@ -19,8 +19,8 @@
             <p class="price">299,00 DH <span class="old-price">349,00 DH</span></p>
             <p class="availability">En stock</p>
             <div class="purchase-options">
-                <button onclick="addToCart()">Ajouter au panier</button>
-                <button onclick="buyNow()">Acheter maintenant</button>
+               <button class="btn" onclick="addToCart('Platinum Multivitamins 90 Tabs - Muscletech', '299,00 DH', 'platinum.webp')">Ajouter au panier</button>
+               <a href="index.html"> retour </a>
             </div>
             <div id="confirmationMessage"></div>
         </div>
@@ -45,42 +45,21 @@
 </div>
 
 <script>
-    // Données du produit
-    const productData = {
-        name: "Platinum Multivitamins 90 Tabs - Muscletech",
-        price: "299,00 DH",
-        id: 8,
-        quantity: 1
-    };
+    // دالة لإضافة المنتج إلى السلة
+    function addToCart(title, price, image) {
+        let product = {
+            title: title,
+            price: price,
+            image: image
+        };
 
-    // Fonction pour ajouter au panier
-    function addToCart() {
-        // Récupérer le panier actuel (ou créer un nouveau)
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        // جلب السلة من localStorage، إذا كانت موجودة أو إنشاء سلة جديدة
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(product); // إضافة المنتج إلى السلة
+        localStorage.setItem('cart', JSON.stringify(cart)); // تخزين السلة في localStorage
 
-        // Vérifier si le produit existe déjà dans le panier
-        const existingProduct = cart.find(item => item.id === productData.id);
-
-        if (existingProduct) {
-            existingProduct.quantity += 1; // Augmenter la quantité
-        } else {
-            cart.push({ ...productData }); // Ajouter le produit
-        }
-
-        // Mettre à jour le panier dans le localStorage
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // Afficher le message de confirmation
-        document.getElementById("confirmationMessage").innerHTML = `
-            Produit ajouté au panier ! <a href="panier.html" style="color: blue; text-decoration: underline;">Voir le panier</a>
-        `;
-    }
-
-    // Fonction pour acheter maintenant
-    function buyNow() {
-        window.location.href = "payment8.html";
+        alert(" Le produit a été ajouté au panier !");
     }
 </script>
-
 </body>
 </html>

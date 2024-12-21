@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier d'achat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .cart-items {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .cart-item {
+            width: 45%;
+            margin: 10px 0;
+            text-align: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .cart-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e67e22;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        .clear-cart-btn {
+            margin-top: 20px;
+            background-color: #dc3545;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .total-price {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cart-items" id="cartItems"></div>
+    <p id="totalPrice" class="total-price">Total: 0 MAD</p>
+    <button class="btn clear-cart-btn" onclick="clearCart()">Vider le panier</button>
+    <a href="index.html" class="btn" style="display: block; margin-top: 20px; text-align: center;">Retour aux produits</a>
+
+    <script>
+        // دالة لعرض المنتجات في السلة
+        function displayCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartContainer = document.getElementById('cartItems');
+            cartContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p class="empty-cart-message">Votre panier est vide</p>';
+            }
+
+            cart.forEach((product, index) => {
+                let cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}" />
+                    <h4>${product.title}</h4>
+                    <p class="price">${product.price} MAD</p>
+                    <button class="remove-btn" onclick="removeItem(${index})">Supprimer le produit</button>
+                `;
+                cartContainer.appendChild(cartItem);
+            });
+
+            // تحديث المجموع الإجمالي
+            calculateTotal();
+        }
+
+        // 
+        function calculateTotal() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = cart.reduce((sum, product) => sum + parseFloat(product.price), 0);
+            document.getElementById('totalPrice').textContent = `Total: ${total.toFixed(2)} MAD`;
+        }
+
+        // 
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); //
+            localStorage.setItem('cart', JSON.stringify(cart)); // e
+            displayCart(); //
+        }
+
+        // 
+        function clearCart() {
+            localStorage.removeItem('cart');
+            displayCart();
+        }
+
+        // عرض السلة عند تحميل الصفحة
+        displayCart();
+    </script>
+
+</body>
+</html>
